@@ -1,0 +1,14 @@
+import jwt from 'jsonwebtoken';
+import { env } from '../config/env';
+import { JwtPayload } from '../types';
+
+export const generateToken = (payload: JwtPayload): string => {
+  return jwt.sign(payload, env.JWT_SECRET, {
+    expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'],
+  });
+};
+
+export const verifyToken = (token: string): JwtPayload => {
+  const decoded = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
+  return decoded;
+};
